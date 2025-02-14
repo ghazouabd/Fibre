@@ -1,0 +1,89 @@
+/* Conteneur principal */
+.container-ems {
+    display: flex;
+    height: 100vh;
+    background-color: #f4f4f4;
+  }
+  
+  /* Contenu principal */
+  .content-main {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Barre supérieure */
+  .header-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #a5a5a5;
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+  }
+  
+  /* Barre de recherche */
+  .search-box {
+    display: flex;
+    align-items: center;
+    background: #909090;
+    padding: 5px 10px;
+    border-radius: 5px;
+  }
+  
+  .search-box input {
+    background: transparent;
+    border: none;
+    color: #fff;
+    outline: none;
+    padding: 5px;
+  }
+  
+  .icon-search {
+    margin-left: 10px;
+    color: white;
+  }
+  
+  /* Groupe d'icônes */
+  .icon-group {
+    display: flex;
+    gap: 15px;
+    font-size: 18px;
+    color: white;
+  }
+  
+  /* Section du contenu */
+  .content-section {
+    margin-top: 20px;
+  }
+  
+  .content-section h2 {
+    color: #333;
+    margin-bottom: 15px;
+  }
+  
+  /* Cartes d'informations */
+  .info-container {
+    display: flex;
+    gap: 20px;
+  }
+  
+ /* Cartes d'informations */
+/* Conteneur des cartes */
+.card-container {
+  display: flex; /* Affichage en ligne */
+  gap: 20px; /* Espacement entre les cartes */
+  justify-content: space-between; /* Répartition des cartes */
+}
+
+/* Cartes d'information */
+.info-card {
+  flex: 1; /* Permet aux cartes de s'ajuster automatiquement */
+  height: 200px;
+  background: #d3d3d3; /* Gris clair */
+  border-radius: 10px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}

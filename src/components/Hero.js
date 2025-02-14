@@ -27,7 +27,7 @@ const Hero = () => {
                                         <path fillRule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clipRule="evenodd" />
                                     </svg>
                                 </Link>
-                                <Link to="/#get-demo" className="text-blue-900 border-2 border-blue-900 hover:bg-blue-800 hover:text-white inline-flex items-center justify-center w-full px-6 py-3 my-4 text-lg shadow-xl rounded-2xl sm:w-auto sm:mb-0">
+                                <Link to="/Loginsignup" className="text-blue-900 border-2 border-blue-900 hover:bg-blue-800 hover:text-white inline-flex items-center justify-center w-full px-6 py-3 my-4 text-lg shadow-xl rounded-2xl sm:w-auto sm:mb-0">
                                     LOGIN
                                 </Link>
                             </div>
