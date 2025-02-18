@@ -1,0 +1,21 @@
+.monitoring-container {
+    display: flex;
+  }
+  
+  .sidebar {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: linear-gradient(to left, rgb(43, 70, 145), rgb(13, 38, 105));
+  }
+  
+  .monitoring-content {
+    margin-left: 250px; /* Laisse de la place pour le sidebar */
+    padding: 20px;
+    width: calc(100% - 250px); /* Empêche le dépassement */
+    background: #f4f4f4;
+    min-height: 100vh;
+  }
+  

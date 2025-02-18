@@ -31,7 +31,7 @@ function App() {
     });
   }, []);
 
-  useDocTitle("MLD | Molad e Konsult - Bespoke Web and Mobile Applications");
+  useDocTitle("P2M");
 
   return (
     <Router>
@@ -49,6 +49,7 @@ function App() {
           <Route path="/topology" element={<Topology />} />
           <Route path="/configuration" element={<Configuration />} />
           <Route path="/monitoring" element={<Monitoring />} />
+          
           <Route path="/reporting" element={<Reporting />} />
           <Route path="/workstation" element={<WorkStationAgent />} />
 

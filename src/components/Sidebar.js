@@ -6,12 +6,12 @@ const styles = `
   .sidebar {
     width: 250px;
     height: 100vh;
-    background: rgb(13, 38, 105);
     padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     color: #fff;
+    background: linear-gradient(to left, rgb(43, 70, 145), rgb(13, 38, 105)); /* Dégradé de bleu */
   }
   .user-section {
     display: flex;

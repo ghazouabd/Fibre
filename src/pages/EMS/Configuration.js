@@ -39,10 +39,17 @@ const Configuration = () => {
           <label>Name *</label>
           <input type="text" name="name" value={config.name} onChange={handleChange} />
         </div>
+
+        
+
+
+
+
         <div className="form-group">
           <label>Comments</label>
           <textarea name="comments" value={config.comments} onChange={handleChange}></textarea>
         </div>
+        
         <div className="form-group">
           <label>Contact Person</label>
           <input type="text" name="contactPerson" value={config.contactPerson} onChange={handleChange} />
@@ -63,6 +70,7 @@ const Configuration = () => {
           <input type="checkbox" name="offline" checked={config.offline} onChange={handleChange} />
           <label>Offline</label>
         </div>
+        <button className="edit-btn">Edit</button>
       </div>
 
       <div className="section">
@@ -91,6 +99,9 @@ const Configuration = () => {
           <label>MacAddress</label>
           <input type="text" name="macAddress" value={config.macAddress} disabled />
         </div>
+        <button className="edit-btn">Edit</button>
+        
+        
       </div>
 
       <div className="section">
@@ -114,11 +125,17 @@ const Configuration = () => {
           <label>Public IP Address</label>
           <input type="text" name="publicIp" value={config.publicIp} onChange={handleChange} />
         </div>
+        <button className="edit-btn">Edit</button>
+       
       </div>
 
      
-      <button className="edit-btn">Edit</button>
+      
+      
+    
+    
     </div>
+    
   );
 };
 
