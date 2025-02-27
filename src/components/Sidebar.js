@@ -1,8 +1,7 @@
 import React from "react";
-import { FaUser } from "react-icons/fa";
+import { FaUser , FaHome } from "react-icons/fa";
 import { Link, useLocation } from "react-router-dom";
-
-const styles = `
+;const styles = `
   .sidebar {
     width: 250px;
     height: 100vh;
@@ -61,6 +60,28 @@ const styles = `
   .bottom-links span:hover {
     background: #4a5568;
   }
+  .home-link {
+  display: flex;
+  align-items: center; /* Alignement vertical */
+  gap: 8px; /* Espace entre l'icône et le texte */
+  text-decoration: none; /* Supprime le soulignement */
+  color: white; /* Ajuste la couleur du texte */
+  font-size: 18px; /* Ajuste la taille du texte */
+  margin-bottom:20px;
+}
+
+.home-icon {
+  font-size: 40px; /* Augmente la taille de l'icône */
+}
+
+.home-text {
+  font-weight: bold;
+}
+
+  .home-icon:hover {
+    transform: scale(1.15); /* Légère augmentation au survol */
+  }
+
 `;
 
 const Sidebar = () => {
@@ -70,6 +91,12 @@ const Sidebar = () => {
     <>
       <style>{styles}</style>
       <aside className="sidebar">
+
+      <Link to="/" className="home-link">
+  <FaHome className="home-icon" />
+  <span className="home-text">Accueil</span>
+</Link>
+
         <div className="user-section">
           <FaUser className="user-icon" />
           <span>User</span>
