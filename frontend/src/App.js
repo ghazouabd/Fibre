@@ -16,7 +16,7 @@ import Topology from "./pages/EMS/Topology";
 import Configuration from "./pages/EMS/Configuration";
 import Monitoring from "./pages/EMS/Monitoring";
 import Reporting from "./pages/EMS/Reporting";
-import WorkStationAgent from "./pages/EMS/WorkStationAgent";
+
 import LoginSignupForm from "./pages/LoginSignupForm";
 
 import { useDocTitle } from "./components/CustomHook";
@@ -51,8 +51,7 @@ function App() {
           <Route path="/monitoring" element={<Monitoring />} />
           
           <Route path="/reporting" element={<Reporting />} />
-          <Route path="/workstation" element={<WorkStationAgent />} />
-
+          
           
         </Routes>
       </ScrollToTop>

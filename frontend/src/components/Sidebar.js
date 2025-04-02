@@ -1,6 +1,6 @@
 import React from "react";
 import { FaUser , FaHome } from "react-icons/fa";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation,useNavigate  } from "react-router-dom";
 ;const styles = `
   .sidebar {
     width: 250px;
@@ -86,7 +86,14 @@ import { Link, useLocation } from "react-router-dom";
 
 const Sidebar = () => {
   const location = useLocation(); // Pour détecter la page active
-
+  const navigate = useNavigate();
+  const userName = localStorage.getItem("userName") || "User";
+  const handleLogout = () => {
+    if (window.confirm("Voulez-vous vraiment vous déconnecter ?")) {
+      localStorage.clear(); // Vide tout le localStorage
+      navigate("/Loginsignup");
+    }
+  };
   return (
     <>
       <style>{styles}</style>
@@ -118,14 +125,12 @@ const Sidebar = () => {
             <li className={location.pathname === "/reporting" ? "active" : ""}>
               <Link to="/reporting">Reporting</Link>
             </li>
-            <li className={location.pathname === "/workstation" ? "active" : ""}>
-              <Link to="/workstation">WorkStationAgent</Link>
-            </li>
+           
           </ul>
         </nav>
         <div className="bottom-links">
           <span>Help</span>
-          <span>Log out</span>
+          <span onClick={handleLogout}>Log out</span>
         </div>
       </aside>
     </>

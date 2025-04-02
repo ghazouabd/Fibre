@@ -118,8 +118,8 @@ const LoginSignupForm = () => {
       const response = await axios.post(`http://localhost:5000/api/auth${endpoint}`, formData);
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
-        // Redirect to a protected route
-        window.location.href = "/dashboard";
+        localStorage.setItem("userName", response.data.user.name);
+        window.location.href = "/user-management";
       }
       alert(response.data.message); // Show response message
     } catch (error) {
