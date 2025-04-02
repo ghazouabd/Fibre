@@ -106,7 +106,7 @@ const Sidebar = () => {
 
         <div className="user-section">
           <FaUser className="user-icon" />
-          <span>User</span>
+          <span>{userName}</span>
         </div>
         <nav className="menu">
           <ul>
