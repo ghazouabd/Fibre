@@ -123,7 +123,7 @@ const UserManagement = () => {
             Duty Schedule
           </button>
         </div>
-
+  
         {/* Contenu selon l'onglet sélectionné */}
         <section className="section-info">
           <div className="header-section">
@@ -194,7 +194,7 @@ const UserManagement = () => {
                         name="userType"
                         value={userData.userType}
                         onChange={handleInputChange}
-                        disabled={userData.userType === "admin"} // Empêche la modification si admin
+                        disabled={userData.userType === "admin"}
                       >
                         <option value="regular">Regular User</option>
                         <option value="manager">Manager</option>
@@ -233,8 +233,42 @@ const UserManagement = () => {
                 )}
               </div>
             )}
-            
-            {/* Autres onglets... */}
+  
+            {activeTab === "notif" && (
+              <div className="notifications-container">
+                <h3>Mes Notifications</h3>
+                
+                {userData.notifications && userData.notifications.length > 0 ? (
+                  <div className="notifications-grid">
+                    {userData.notifications.map((notification, index) => (
+                      <div key={index} className="notification-card">
+                        <div className="notification-header">
+                          <span className={`notification-type ${notification.notificationType}`}>
+                            {notification.notificationType === 'email' ? '📧 Email' : '📱 SMS'}
+                          </span>
+                          <span className={`notification-status ${notification.isActive ? 'active' : 'inactive'}`}>
+                            {notification.isActive ? 'Actif' : 'Inactif'}
+                          </span>
+                        </div>
+                        <div className="notification-details">
+                          <p><strong>Destinataire:</strong> {notification.parameters}</p>
+                          <p><strong>Programmation:</strong> {notification.schedule}</p>
+                          <p><strong>Seuil d'alerte:</strong> 
+                            <span className={`severity-${notification.severityThreshold}`}>
+                              {notification.severityThreshold}
+                            </span>
+                          </p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="no-notifications">
+                    <p>Aucune notification configurée</p>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         </section>
       </main>

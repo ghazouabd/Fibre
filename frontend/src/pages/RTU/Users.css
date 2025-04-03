@@ -1,0 +1,93 @@
+/* Main container */
+.users-management-container {
+    display: flex;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    margin-left: 250px;
+  }
+  
+  /* Main content area */
+  .users-main-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Navigation tabs */
+  .users-navigation-tabs {
+    position: fixed;
+    left: 250px;
+    right: 0;
+    background: linear-gradient(to right, rgb(43, 70, 145), rgb(13, 38, 105)); /* Dégradé de bleu */
+    padding: 10px;
+    display: flex;
+    justify-content: space-around;
+    z-index: 999;
+  }
+  
+  .users-navigation-tabs button {
+    background: transparent;
+    border: none;
+    padding: 10px 25px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #e0e0e0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-radius: 20px;
+  }
+  
+  .users-navigation-tabs button:hover {
+    background: rgba(255,255,255,0.15);
+    color: white;
+  }
+  
+  .users-navigation-tabs .tab-active {
+    background: #4a90e2;
+    color: white;
+    font-weight: 600;
+  }
+  
+  /* Content section */
+  .users-content-section {
+    flex: 1;
+    margin-top: 80px;
+    padding: 25px;
+    overflow-y: auto;
+    height: calc(100vh - 80px);
+  }
+  
+  .users-content-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e0e0e0;
+  }
+  
+  .users-content-header h2 {
+    color: #2c3e50;
+    font-size: 24px;
+    font-weight: 600;
+  }
+  
+  /* View containers */
+  .users-view-container {
+    background: white;
+    border-radius: 8px;
+    padding: 25px;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+  }
+  
+  .user-profile-view,
+  .notifications-view,
+  .groups-view,
+  .schedule-view {
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #7f8c8d;
+    font-size: 18px;
+  }

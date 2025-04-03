@@ -83,7 +83,7 @@ const Configuration = () => {
                   <input type="checkbox" name="offline" />
                   <label>Offline</label>
                 </div>
-                <button className="edit-btn">Edit</button>
+                <button className="edit-btnn">Edit</button>
               </>
             )}
 
@@ -113,7 +113,7 @@ const Configuration = () => {
                   <label>Mac Address</label>
                   <input type="text" name="macAddress" defaultValue="00:0C:29:3A:AB:47" disabled />
                 </div>
-                <button className="edit-btn">Edit</button>
+                <button className="edit-btnn">Edit</button>
               </>
             )}
 
@@ -138,7 +138,7 @@ const Configuration = () => {
                   <label>Public IP Address</label>
                   <input type="text" name="publicIp" />
                 </div>
-                <button className="edit-btn">Edit</button>
+                <button className="edit-btnn">Edit</button>
               </>
             )}
 
@@ -167,7 +167,7 @@ const Configuration = () => {
                   <label>Alert Sending</label>
                   <input type="checkbox" name="alertSending" defaultChecked />
                 </div>
-                <button className="edit-btn">Edit</button>
+                <button className="edit-btnn">Edit</button>
               </>
             )}
 
@@ -189,7 +189,7 @@ const Configuration = () => {
                   <label>System Uptime</label>
                   <input type="text" name="uptime" defaultValue="120 days" disabled />
                 </div>
-                <button className="edit-btn">Edit</button>
+                <button className="edit-btnn">Edit</button>
               </>
             )}
 
@@ -214,7 +214,7 @@ const Configuration = () => {
                     <option value="Maintenance">Maintenance</option>
                   </select>
                 </div>
-                <button className="edit-btn">Edit</button>
+                <button className="edit-btnn">Edit</button>
               </>
             )}
           </div>

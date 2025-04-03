@@ -11,7 +11,33 @@ const UserSchema = new mongoose.Schema({
     required: true,
     enum: ['admin', 'manager', 'regular'],
     default: 'admin' 
-  }
+  },
+
+  notifications: [{
+    notificationType: { 
+      type: String, enum: ['email', 'sms'], required: true },
+    parameters: { type: String, required: true },
+    schedule: { 
+      type: String, 
+      enum: ['24/7', 'working-hours', 'custom'], 
+      default: '24/7' 
+    },
+    severityThreshold: { 
+      type: String, 
+      enum: ['low', 'medium', 'high', 'critical'], 
+      default: 'medium' 
+    },
+    isActive: { 
+      type: Boolean, 
+      default: true 
+    },
+    createdAt: { 
+      type: Date, 
+      default: Date.now 
+    }
+  }]
+
+
 });
 
 module.exports = mongoose.model("User", UserSchema);

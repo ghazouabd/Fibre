@@ -6,7 +6,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
 const app = express();
-const Notification = require("./models/Notification");
+
 
 // Middleware
 app.use(express.json());
@@ -35,7 +35,36 @@ const UserSchema = new mongoose.Schema({
     required: true,
     enum: ['admin', 'manager', 'regular'],
     default: 'regular'
-  }
+  },
+  notifications: [{
+    notificationType: { 
+      type: String, 
+      enum: ['email', 'sms'], 
+      required: true 
+    },
+    parameters: { 
+      type: String, 
+      required: true 
+    },
+    schedule: { 
+      type: String, 
+      enum: ['24/7', 'working-hours', 'custom'], 
+      default: '24/7' 
+    },
+    severityThreshold: { 
+      type: String, 
+      enum: ['low', 'medium', 'high', 'critical'], 
+      default: 'medium' 
+    },
+    isActive: { 
+      type: Boolean, 
+      default: true 
+    },
+    createdAt: { 
+      type: Date, 
+      default: Date.now 
+    }
+  }]
 });
 
 const User = mongoose.model("User", UserSchema);
@@ -178,57 +207,6 @@ app.use("/api/auth", router);
 
 
 
-
-// Routes pour les notifications
-app.post("/api/auth/notifications", authMiddleware, async (req, res) => {
-  try {
-    const { notificationType, parameters, schedule, severityThreshold } = req.body;
-    
-    // Validation basique
-    if (!notificationType || !parameters) {
-      return res.status(400).json({ message: "Notification type and parameters are required" });
-    }
-
-    const notification = new Notification({
-      userId: req.user.id,
-      notificationType,
-      parameters,
-      schedule: schedule || "24/7",
-      severityThreshold: severityThreshold || "medium"
-    });
-
-    await notification.save();
-    res.status(201).json(notification);
-  } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
-  }
-});
-
-app.get("/api/auth/notifications", authMiddleware, async (req, res) => {
-  try {
-    const notifications = await Notification.find({ userId: req.user.id });
-    res.json(notifications);
-  } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
-  }
-});
-
-app.delete("/api/auth/notifications/:id", authMiddleware, async (req, res) => {
-  try {
-    const notification = await Notification.findOneAndDelete({
-      _id: req.params.id,
-      userId: req.user.id
-    });
-
-    if (!notification) {
-      return res.status(404).json({ message: "Notification not found" });
-    }
-
-    res.json({ message: "Notification deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ message: "Server error", error: error.message });
-  }
-});
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

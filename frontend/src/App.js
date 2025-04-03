@@ -18,6 +18,9 @@ import Monitoring from "./pages/EMS/Monitoring";
 import Reporting from "./pages/EMS/Reporting";
 
 import LoginSignupForm from "./pages/LoginSignupForm";
+import Users from "./pages/RTU/Users";
+import ConfigurationRTU from "./pages/RTU/ConfigurationRTU";
+import State from "./pages/RTU/State";
 
 import { useDocTitle } from "./components/CustomHook";
 import ScrollToTop from "./components/ScrollToTop";
@@ -51,8 +54,11 @@ function App() {
           <Route path="/monitoring" element={<Monitoring />} />
           
           <Route path="/reporting" element={<Reporting />} />
-          
-          
+          <Route path="/users" element={<Users />} />
+          <Route path="/configurationRTU" element={<ConfigurationRTU />} />
+          <Route path="/stateRTU" element={<State />} />
+
+
         </Routes>
       </ScrollToTop>
     </Router>

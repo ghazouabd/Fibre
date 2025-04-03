@@ -18,7 +18,7 @@ const Portfolio = () => {
                             Configure and monitor Remote Test Units (RTUs) for real-time fiber optic network diagnostics and fault detection.
                         </p>
                         <div className="flex justify-center">
-                            <Link to="/rtu-management" className="text-white bg-blue-900 hover:bg-blue-800 px-6 py-2 text-lg rounded-xl">
+                            <Link to="/users" className="text-white bg-blue-900 hover:bg-blue-800 px-6 py-2 text-lg rounded-xl">
                                 Access RTU
                             </Link>
                         </div>
@@ -31,7 +31,7 @@ const Portfolio = () => {
                             Analyze network performance metrics, alarms, and service status through the Element Management System (EMS).
                         </p>
                         <div className="flex justify-center">
-                            <Link to="/ems-server" className="text-white bg-blue-900 hover:bg-blue-800 px-6 py-2 text-lg rounded-xl">
+                            <Link to="/user-management" className="text-white bg-blue-900 hover:bg-blue-800 px-6 py-2 text-lg rounded-xl">
                                 Access EMS
                             </Link>
                         </div>
