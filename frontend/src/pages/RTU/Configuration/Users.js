@@ -163,7 +163,7 @@ const Users = () => {
                     <Link to="/Home" className="users-logo">FAST</Link>
                     <FaUser className="users-icon" />
                     <span>{userName}</span>
-                    <h1 className="users-title">- Usres</h1>
+                    <h1 className="users-title">- Users</h1>
                 </header>
 
                 <div className="header-spacer"></div>
