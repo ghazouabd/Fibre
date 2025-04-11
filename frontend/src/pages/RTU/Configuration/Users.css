@@ -1,0 +1,261 @@
+/* Style pour la page Users */
+.users-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: white; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+  
+.users-header {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e7e7e7;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.users-logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1e40af;
+    text-decoration: none;
+}
+
+.users-title {
+    color: #009ca1;
+}
+
+.users-content {
+    padding: 20px;
+    flex: 1;
+    margin-top: 170px;
+}
+
+/* Pour centrer le formulaire */
+.form-wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.user-form {
+    margin-top: 20px;
+    background: #e5f1f7;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #d0dce5;
+    width: 70%;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #0a2c4a;
+}
+
+input, select {
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+input:disabled, select:disabled {
+    background-color: #e8edf1;
+    color: #888;
+}
+
+.form-buttons {
+    margin-top: 20px;
+    text-align: right;
+    
+}
+
+.form-buttons button {
+    background-color: #007acc;
+    color: white;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.form-buttons button:hover {
+    background-color: gray;
+}
+
+/* pour aligner horizontalement User Rights */
+.horizontal-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.radio-options {
+    display: flex;
+    gap: 15px;
+}
+
+
+
+
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.8);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.loading-spinner {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #3498db;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+.success-message {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #4CAF50;
+    color: white;
+    padding: 15px;
+    border-radius: 4px;
+    text-align: center;
+    animation: fadeIn 0.5s, fadeOut 0.5s 2.5s;
+    z-index: 1000;
+    width: auto;
+    max-width: 80%;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.form-group input:disabled {
+    background-color: #f5f5f5;
+    color: #666;
+}
+
+.form-group input::placeholder {
+    color: #999;
+    font-style: italic;
+}
+.delete-button {
+    background-color: #ff4444;
+    color: white;
+    margin-left: 10px;
+    border-radius: 8px;
+}
+
+.delete-button:hover {
+    background-color: #cc0000;
+}
+
+
+.h11 {
+    font-size: 24px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Ajoutez ces styles */
+.clients-list {
+    margin-top: 2rem;
+    width: 100%;
+}
+
+.clients-list table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+}
+
+.clients-list th, 
+.clients-list td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.clients-list th {
+    background-color: #f2f2f2;
+    font-weight: 600;
+}
+
+.clients-list tr:hover {
+    background-color: #f5f5f5;
+    cursor: pointer;
+}
+
+.clients-list tr.selected {
+    background-color: #e6f7ff;
+}
+
+.required {
+    color: red;
+    margin-left: 4px;
+}
+
+.centered-text {
+    text-align: center; /* Centre le texte horizontalement */
+    color: gray;        /* Définit la couleur du texte en gris */
+    font-size: 16px;     /* Taille de la police (optionnelle) */
+    margin-top: 20px;    /* Espacement au-dessus du paragraphe (optionnel) */
+  }
+
+
+

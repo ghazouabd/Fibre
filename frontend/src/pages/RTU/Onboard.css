@@ -1,0 +1,37 @@
+
+/* Style pour la page onboard */
+.onboard-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.onboard-header {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e7e7e7;
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Espace entre FAST et onboard */
+}
+
+.onboard-logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1e40af;
+    text-decoration: none;
+}
+.onboard-title {
+    color: #ff6b00; /* Couleur orange */
+    
+    
+  }
+
+.header-spacer {
+    height: 10px; /* Ajustez cette valeur pour l'espacement désiré */
+}
+
+.onboard-content {
+    padding: 20px;
+    flex: 1;
+}

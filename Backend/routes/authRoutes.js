@@ -49,8 +49,7 @@ router.post("/login", async (req, res) => {
     // Generate JWT token
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: "1h" });
 
-    res.json({ token, user: { id: user._id, name: user.name, email: user.email , phoneNumber: user.phoneNumber,
-      address: user.address, userType: user.userType } });
+    res.json({ token, user: { id: user._id, name: user.name, email: user.email  } });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
   }
@@ -88,7 +87,7 @@ app.get("/api/auth/profile", authMiddleware, async (req, res) => {
 // UPDATE USER PROFILE (protégé par authMiddleware)
 router.put("/update-profile", authMiddleware, async (req, res) => {
   try {
-    const { phoneNumber, address, userType } = req.body;
+    const { Hostname, Ipadress } = req.body;
     const userId = req.user.id; // ID provenant du token
 
     const user = await User.findById(userId);
@@ -97,22 +96,17 @@ router.put("/update-profile", authMiddleware, async (req, res) => {
     }
 
     // Mise à jour des champs
-    user.phoneNumber = phoneNumber || user.phoneNumber;
-    user.address = address || user.address;
-    
-    // Seul un admin peut modifier le userType
-    if (req.user.userType === 'admin') {
-      user.userType = userType || user.userType;
-    }
+    user.Ipadress = Ipadress || user.Ipadress;
+    user.Hostname = Hostname || user.Hostname;
+
 
     await user.save();
 
     res.json({
-      message: "Profile updated successfully",
+      message: "Information applied successfully!",
       user: {
-        phoneNumber: user.phoneNumber,
-        address: user.address,
-        userType: user.userType
+        Ipadress: user.Ipadress,
+        Hostname: user.Hostname,
       }
     });
   } catch (error) {

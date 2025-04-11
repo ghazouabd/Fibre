@@ -1,0 +1,96 @@
+/* Styles de base pour la navbar */
+.navbar-container {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e7e7e7;
+    padding:  20px;
+    width: 100%;
+    box-sizing: border-box;
+
+  }
+  
+ 
+  
+ 
+  
+  .navbar {
+    display: flex;
+    list-style: none;
+   
+    width: 100%;
+    justify-content: space-between;
+    background-color: #1e40af;
+  }
+  
+  .nav-item-container {
+    position: relative;
+    flex-grow: 1;
+    text-align: center;
+  }
+  
+  .nav-item-container.has-dropdown {
+    flex-grow: 1.2; /* Un peu plus large pour les éléments avec dropdown */
+  }
+  
+  .nav-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 5px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 14px;
+    position: relative;
+    border-top: 3px solid transparent;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .nav-item:hover {
+   
+    color:rgb(121, 152, 207) ; 
+  }
+  
+  .nav-item.active {
+    color: #009ca1;
+    border-top: 3px solid #009ca1;
+    font-weight: bold;
+  }
+  
+  .dropdown-arrow {
+    margin-left: 5px;
+    font-size: 12px;
+  }
+  
+  /* Styles pour le sous-menu */
+  .submenu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    min-width: 200px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    z-index: 1000;
+    border: 1px solid #e7e7e7;
+    border-top: none;
+  }
+  
+  .submenu-item {
+    display: block;
+    padding: 10px 15px;
+    color: #333;
+    text-decoration: none;
+    font-size: 13px;
+    text-align: left;
+  }
+  
+  .submenu-item:hover {
+    background-color: #f5f5f5;
+    color:rgb(121, 152, 207) ; 
+  }
+  
+  .submenu-item.active {
+    color: #009ca1;
+    font-weight: bold;
+    background-color: #f8f8f8;
+  }

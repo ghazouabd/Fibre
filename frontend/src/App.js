@@ -10,20 +10,22 @@ import Contact from "./pages/Contact";
 import DemoProduct from "./pages/DemoProduct";
 import Portfolio from "./components/Portfolio";
 
-// EMS Pages
-import UserManagement from "./pages/EMS/UserManagement";
-import Topology from "./pages/EMS/Topology";
-import Configuration from "./pages/EMS/Configuration";
-import Monitoring from "./pages/EMS/Monitoring";
-import Reporting from "./pages/EMS/Reporting";
+
 
 import LoginSignupForm from "./pages/LoginSignupForm";
-import Users from "./pages/RTU/Users";
-import ConfigurationRTU from "./pages/RTU/ConfigurationRTU";
-import State from "./pages/RTU/State";
 
 import { useDocTitle } from "./components/CustomHook";
 import ScrollToTop from "./components/ScrollToTop";
+import Onboard from "./pages/RTU/Onboard";
+import RemoteTestUnit from "./pages/RTU/Configuration/RemoteTestUnit";
+import NetworkSetup from "./pages/RTU/Configuration/NetworkSetup";
+import OpticalRoutes from "./pages/RTU/Configuration/OpticalRoutes";
+import Users from "./pages/RTU/Configuration/Users"
+import EMSServer from "./pages/RTU/Configuration/EMSServer";
+import ThresholdSets from "./pages/RTU/Configuration/ThresholdSets";
+import CurrentFaults from "./pages/RTU/Status/CurrentFaults";
+import Search from "./pages/RTU/Reporting/Search";
+import AdHocTest from "./pages/RTU/ManualTest/AdHocTest";
 
 function App() {
   useEffect(() => {
@@ -34,29 +36,34 @@ function App() {
     });
   }, []);
 
-  useDocTitle("P2M");
+  useDocTitle("FAST");
 
   return (
     <Router>
       <ScrollToTop>
         <Routes>
           {/* Public Routes */}
-          <Route path="/" element={<Home />} />
+          <Route path="/" element={<LoginSignupForm />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/get-demo" element={<DemoProduct />} />
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/Loginsignup" element={<LoginSignupForm />} />
+          <Route path="/Home" element={<Home />} />
 
-          {/* EMS Routes */}
-          <Route path="/user-management" element={<UserManagement />} />
-          <Route path="/topology" element={<Topology />} />
-          <Route path="/configuration" element={<Configuration />} />
-          <Route path="/monitoring" element={<Monitoring />} />
+          {/* RTU Routes */}
           
-          <Route path="/reporting" element={<Reporting />} />
-          <Route path="/users" element={<Users />} />
-          <Route path="/configurationRTU" element={<ConfigurationRTU />} />
-          <Route path="/stateRTU" element={<State />} />
+          
+
+          <Route path="/Onboard" element={<Onboard />} />
+          <Route path="/configuration/Remote-Test-Unit" element={<RemoteTestUnit />} />
+          <Route path="/configuration/Network-Setup" element={<NetworkSetup />} />
+          <Route path="/configuration/Optical-Routes" element={<OpticalRoutes />} />
+          <Route path="/configuration/users" element={<Users />} />
+          <Route path="/configuration/EMS-Server" element={< EMSServer/>} />
+          <Route path="/configuration/Threshold-Sets" element={< ThresholdSets/>} />
+          <Route path="/status/Current-Faults" element={< CurrentFaults/>} />
+          <Route path="/reporting/Search" element={< Search/>} />
+          <Route path="/manual-test/ad-hoc-test" element={< AdHocTest/>} />
 
 
         </Routes>

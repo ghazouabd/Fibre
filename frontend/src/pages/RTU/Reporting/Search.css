@@ -1,0 +1,49 @@
+.s-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.s-header {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e7e7e7;
+    display: flex;
+    align-items: center;
+    gap: 20px; /* Espace entre FAST et c */
+}
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background: white; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+}
+
+.s-logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #1e40af;
+    text-decoration: none;
+}
+.s-title {
+    color:#009ca1; /* Couleur orange */
+    
+    
+  }
+
+.s-spacer {
+    height: 10px; /* Ajustez cette valeur pour l'espacement désiré */
+}
+.s-content {
+    flex: 1;
+    padding: 2rem;
+    margin-top: 170px;
+    
+   
+}
+.h2 {
+    font-size: 24px;
+}

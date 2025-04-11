@@ -119,7 +119,7 @@ const LoginSignupForm = () => {
       if (response.data.token) {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("userName", response.data.user.name);
-        window.location.href = "/user-management";
+        window.location.href = "/Home";
       }
       alert(response.data.message); // Show response message
     } catch (error) {
