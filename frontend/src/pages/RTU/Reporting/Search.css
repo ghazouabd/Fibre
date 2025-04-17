@@ -34,9 +34,7 @@
     
   }
 
-.s-spacer {
-    height: 10px; /* Ajustez cette valeur pour l'espacement désiré */
-}
+
 .s-content {
     flex: 1;
     padding: 2rem;

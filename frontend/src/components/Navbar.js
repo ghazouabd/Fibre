@@ -23,6 +23,7 @@ const Navbar = () => {
     { label: 'Users', path: '/configuration/users' },
     { label: 'EMS Server', path: '/configuration/EMS-Server' },
     { label: 'Threshold Sets', path: '/configuration/Threshold-Sets' },
+    
   ];
 
   const statusSubItems = [

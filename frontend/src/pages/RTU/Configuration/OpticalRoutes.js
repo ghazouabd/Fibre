@@ -1,34 +1,46 @@
-// OpticalRoutes.js
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import Navbar from '../../../components/Navbar';
 import './OpticalRoutes.css';
+import { Link } from 'react-router-dom';
 import { FaUser } from "react-icons/fa";
 
 const OpticalRoutes = () => {
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [routes, setRoutes] = useState([]);
-  const [editMode, setEditMode] = useState(false);
-  const [showRouteForm, setShowRouteForm] = useState(false);
-  const [name, setName] = useState("OTH S/N:40290");
-
-  const [newRoute, setNewRoute] = useState({
-    name: '',
-    port: '',
-    wavelength: '',
-    range: '',
-    pulse: '',
-    duration: ''
-  });
-
   const userName = localStorage.getItem("userName") || "User";
+  const token = localStorage.getItem("token");
+
+  const [latestPdf, setLatestPdf] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [editMode, setEditMode] = useState(false);
+
+  const [name, setName] = useState("OTH S/N:40290");
+  const [ports, setPorts] = useState(Array(8).fill({ state: '', color: 'gray' }));
+  const [selectedPortIndex, setSelectedPortIndex] = useState(null);
+  useEffect(() => {
+    const fetchConfig = async () => {
+      try {
+        const res = await axios.get("http://localhost:5000/api/optical-routes", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (res.data.config) {
+          const config = res.data.config;
+          setName(config.name || "");
+          setOtdr(config.otdr || {});
+          setOtau(config.otau || {});
+          setPorts(config.ports || Array(8).fill({ state: '', color: 'gray' }));
+        }
+      } catch (error) {
+        console.error("Erreur de récupération de la config :", error);
+      }
+    };
+  
+    fetchConfig();
+  }, []);
 
   const [otdr, setOtdr] = useState({
     serial: "423402",
     model: "OTDR 1550/1625 nm (SM)",
-    wavelength1: "1550 nm",
-    fiber1: "singlemode B fiber",
-    wavelength2: "1625 nm",
+    wavelength2: "1550 nm",
     fiber2: "singlemode B fiber"
   });
 
@@ -37,74 +49,74 @@ const OpticalRoutes = () => {
     hostedBy: "OTH-700 Optical Test Head 40290",
     connection: "exfobus:0.0.1.0",
     ports: 0,
-    selectedPorts: []
+    selectedPorts: [],
+    detectionStatus: "undetected"
   });
 
-  const handleFileUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setSelectedFile(file);
-      setShowRouteForm(true);
-      console.log("Fichier sélectionné:", file.name);
-    }
+  const handlePortClick = (index) => {
+    setSelectedPortIndex(index);
   };
 
-  const handleRouteChange = (e) => {
-    const { name, value } = e.target;
-    setNewRoute(prev => ({ ...prev, [name]: value }));
-  };
-
-  const addRoute = () => {
-    if (newRoute.name && newRoute.port) {
-      setRoutes([...routes, newRoute]);
-      setNewRoute({
-        name: '',
-        port: '',
-        wavelength: '',
-        range: '',
-        pulse: '',
-        duration: ''
-      });
+  const handlePortStateChange = (state) => {
+    let color;
+    switch (state.toLowerCase()) {
+      case 'detected': color = 'green'; break;
+      case 'undetected': color = 'lightgray'; break;
+      case 'skipped': color = 'orange'; break;
+      case 'force detection': color = 'red'; break;
+      default: color = 'gray';
     }
+
+    const updatedPorts = [...ports];
+    updatedPorts[selectedPortIndex] = { state, color };
+    setPorts(updatedPorts);
+    setSelectedPortIndex(null);
   };
 
   const handleChange = (e, section, field) => {
     const value = e.target.value;
-    if (section === 'otdr') {
-      setOtdr({ ...otdr, [field]: value });
-    } else if (section === 'otau') {
-      setOtau({ ...otau, [field]: value });
-    }
+    if (section === 'otdr') setOtdr({ ...otdr, [field]: value });
+    else if (section === 'otau') setOtau({ ...otau, [field]: value });
   };
 
-  const handlePortClick = (portNumber) => {
-    if (!editMode) return;
+  const handleConfigure = () => setEditMode(true);
 
-    const newSelectedPorts = [...otau.selectedPorts];
-    const portIndex = newSelectedPorts.indexOf(portNumber);
-
-    if (portIndex === -1) {
-      newSelectedPorts.push(portNumber);
-    } else {
-      newSelectedPorts.splice(portIndex, 1);
-    }
-
-    setOtau({
-      ...otau,
-      selectedPorts: newSelectedPorts,
-      ports: newSelectedPorts.length
-    });
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert("Information applied successfully!");
+    const config = { name, otdr, otau, ports };
+    try {
+      const res = await axios.put('http://localhost:5000/api/optical-routes', config, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      alert("Configuration saved successfully");
+    } catch (error) {
+      console.error(error);
+      alert("Error saving configuration");
+    }
     setEditMode(false);
-    setShowRouteForm(false); // hide route form after applying
   };
 
-  const handleDetectClick = () => {
-    document.getElementById('file-upload').click();
+  const runPythonScript1 = async () => {
+    try {
+      setLoading(true);
+      const res = await axios.get('http://localhost:5000/api/python/run-consumer');
+      
+    } catch (err) {
+      console.error(err);
+      alert("Erreur lors de l'exécution du script.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchLatestPdf = async () => {
+    try {
+      const response = await axios.get('http://localhost:5000/api/latest-report');
+      setLatestPdf(response.data.latestPdf);
+    } catch (error) {
+      console.error("Erreur PDF:", error);
+      alert("Aucun rapport disponible");
+    }
   };
 
   return (
@@ -123,25 +135,16 @@ const OpticalRoutes = () => {
       <main className="opt-content">
         <div className="header-section">
           <h2>Routes Configuration</h2>
-          <button onClick={() => setEditMode(true)} className="edit-button">
-            Configure
-          </button>
+          <button onClick={handleConfigure} className="configure-button">Configure</button>
         </div>
 
-        <form onSubmit={handleSubmit} className="opt-table">
-          {/* nom */}
+        <form onSubmit={handleSubmit} className="test-table">
           <div className="form-row name-row">
             <label>Name:</label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              disabled={!editMode}
-            />
+            <input type="text" value={name} onChange={(e) => setName(e.target.value)} disabled={!editMode} />
           </div>
 
-          {/* otdr */}
-          <fieldset className="opt-section">
+          <fieldset className="test-section">
             <legend>OTDR</legend>
             <div className="form-row">
               <label>Serial number:</label>
@@ -151,25 +154,15 @@ const OpticalRoutes = () => {
               <label>Model name:</label>
               <input value={otdr.model} onChange={(e) => handleChange(e, 'otdr', 'model')} disabled={!editMode} />
             </div>
-            <div className="wavelength-section">
-              <h4>Wavelength Configuration</h4>
-              <div className="form-row">
-                <label>Wavelength 1:</label>
-                <input value={otdr.wavelength1} onChange={(e) => handleChange(e, 'otdr', 'wavelength1')} disabled={!editMode} />
-                <span>on</span>
-                <input value={otdr.fiber1} onChange={(e) => handleChange(e, 'otdr', 'fiber1')} disabled={!editMode} />
-              </div>
-              <div className="form-row">
-                <label>Wavelength 2:</label>
-                <input value={otdr.wavelength2} onChange={(e) => handleChange(e, 'otdr', 'wavelength2')} disabled={!editMode} />
-                <span>on</span>
-                <input value={otdr.fiber2} onChange={(e) => handleChange(e, 'otdr', 'fiber2')} disabled={!editMode} />
-              </div>
+            <div className="form-row">
+              <label>Wavelength 2:</label>
+              <input value={otdr.wavelength2} onChange={(e) => handleChange(e, 'otdr', 'wavelength2')} disabled={!editMode} />
+              <span>on</span>
+              <input value={otdr.fiber2} onChange={(e) => handleChange(e, 'otdr', 'fiber2')} disabled={!editMode} />
             </div>
           </fieldset>
 
-          {/* otau */}
-          <fieldset className="opt-section">
+          <fieldset className="test-section">
             <legend>OTAU</legend>
             <div className="form-row">
               <label>Serial number:</label>
@@ -177,114 +170,64 @@ const OpticalRoutes = () => {
               <label>Connection:</label>
               <input value={otau.connection} onChange={(e) => handleChange(e, 'otau', 'connection')} disabled={!editMode} />
             </div>
-            <div className="form-row">
-              <label>Hosted by:</label>
-              <input value={otau.hostedBy} onChange={(e) => handleChange(e, 'otau', 'hostedBy')} disabled={!editMode} />
-              <label>Number of ports:</label>
-              <input type="number" value={otau.ports} readOnly className="read-only-input" />
-            </div>
 
-            <div className="port-grid">
-              {[...Array(8)].map((_, i) => {
-                const portNumber = i + 1;
-                const isSelected = otau.selectedPorts.includes(portNumber);
-                return (
-                  <button
-                    key={i}
-                    className={`port ${isSelected ? 'detected' : 'undetected'}`}
-                    onClick={() => handlePortClick(portNumber)}
-                    type="button"
-                    disabled={!editMode}
-                  >
-                    {portNumber}
-                  </button>
-                );
-              })}
-            </div>
-
-            <button
-              type="button"
-              className="detect-btn"
-              disabled={!editMode}
-              onClick={handleDetectClick}
-            >
-              Detect
-            </button>
-
-            <input
-              type="file"
-              id="file-upload"
-              style={{ display: 'none' }}
-              onChange={handleFileUpload}
-              accept=".SOR,.csv"
-            />
-
-            {selectedFile && (
-              <div className="file-info">
-                Fichier sélectionné: {selectedFile.name}
-                <button onClick={() => setSelectedFile(null)} className="clear-file-btn">×</button>
+            <div className="port-selector">
+              <h3>Which Port ?</h3>
+              <div className="ports">
+                {ports.map((port, index) => (
+                  <div key={index} className="port-wrapper">
+                    <button
+                      className="port-button"
+                      style={{ backgroundColor: port.color }}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        if (editMode) handlePortClick(index);
+                      }}
+                    >
+                      {index + 1}
+                    </button>
+                    {editMode && selectedPortIndex === index && (
+                      <div className="state-options">
+                        <label>État:</label>
+                        <select onChange={(e) => handlePortStateChange(e.target.value)} defaultValue="">
+                          <option value="" disabled>State ?</option>
+                          <option value="detected">Detected</option>
+                          <option value="undetected">Undetected</option>
+                          <option value="skipped">Skipped</option>
+                          <option value="force detection">Force Detection</option>
+                        </select>
+                      </div>
+                    )}
+                  </div>
+                ))}
               </div>
-            )}
-
-            <div className="legend">
-              <span className="legend-item detected">Detected</span>
-              <span className="legend-item undetected">Undetected</span>
-              <span className="legend-item skipped">Skipped</span>
-              <span className="legend-item forced">Force Detection</span>
             </div>
-
-            {/* add route inline */}
-            {editMode && showRouteForm && (
-              <div className="route-inline-form">
-                <h4>Configure New Route</h4>
-                <div className="form-row horizontal">
-                  <input type="text" name="name" placeholder="Name" value={newRoute.name} onChange={handleRouteChange} />
-                  <input type="text" name="port" placeholder="Port" value={newRoute.port} onChange={handleRouteChange} />
-                  <input type="text" name="wavelength" placeholder="Wavelength" value={newRoute.wavelength} onChange={handleRouteChange} />
-                  <input type="text" name="range" placeholder="Range" value={newRoute.range} onChange={handleRouteChange} />
-                  <input type="text" name="pulse" placeholder="Pulse" value={newRoute.pulse} onChange={handleRouteChange} />
-                  <input type="text" name="duration" placeholder="Duration" value={newRoute.duration} onChange={handleRouteChange} />
-                  <button type="button" className="add-route-btn" onClick={addRoute}>Add</button>
-                </div>
-              </div>
-            )}
-          </fieldset>
-
-          {/* table routes */}
-          <fieldset className="opt-section">
-            <legend>Routes</legend>
-            {routes.length === 0 ? (
-              <p className="no-routes">No routes configured</p>
-            ) : (
-              <table className="routes-table">
-                <thead>
-                  <tr>
-                    <th>Name</th>
-                    <th>Port</th>
-                    <th>Wavelength</th>
-                    <th>Range (km)</th>
-                    <th>Pulse</th>
-                    <th>Duration (s)</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {routes.map((route, index) => (
-                    <tr key={index}>
-                      <td>{route.name}</td>
-                      <td>{route.port}</td>
-                      <td>{route.wavelength}</td>
-                      <td>{route.range}</td>
-                      <td>{route.pulse}</td>
-                      <td>{route.duration}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            )}
           </fieldset>
 
           {editMode && <button type="submit" className="save-button">Apply</button>}
         </form>
+
+        <div className="action-buttons">
+          <button type="button" className="detectt-btn" disabled={loading} onClick={runPythonScript1}>
+            {loading ? 'Processing...' : 'Detect'}
+          </button>
+
+          <button onClick={fetchLatestPdf} className="pdf-button">
+            Show Detection Result
+          </button>
+        </div>
+
+        {latestPdf && (
+          <div className="pdf-viewer">
+            <div className="pdf-info">
+              Actual Report of : {latestPdf.replace('.pdf', '')}
+            </div>
+            <iframe
+              title="Rapport OTDR"
+              src={`http://localhost:5000/reports/${latestPdf}`}
+            />
+          </div>
+        )}
       </main>
     </div>
   );

@@ -34,9 +34,7 @@
     
   }
 
-.c-spacer {
-    height: 10px; /* Ajustez cette valeur pour l'espacement désiré */
-}
+
 .c-content {
     flex: 1;
     padding: 2rem;

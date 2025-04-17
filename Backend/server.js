@@ -6,6 +6,9 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const router = express.Router();
 const app = express();
+const pythonRoutes = require('./routes/pythonRoutes');
+const fs = require('fs');
+const path = require('path');
 
 
 // Middleware
@@ -164,6 +167,52 @@ const ThresholdConfigSchema = new mongoose.Schema({
   }
 });
 const ThresholdConfig = mongoose.model('ThresholdConfig', ThresholdConfigSchema);
+
+
+
+
+
+
+const OpticalRouteConfigSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+    unique: true
+  },
+  name: String,
+  otdr: {
+    serial: String,
+    model: String,
+    wavelength2: String,
+    fiber2: String
+  },
+  otau: {
+    serial: String,
+    hostedBy: String,
+    connection: String,
+    ports: Number,
+    selectedPorts: [Number],
+    detectionStatus: String
+  },
+  ports: [
+    {
+      state: String,
+      color: String
+    }
+  ],
+  updatedAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+const OpticalRouteConfig = mongoose.model('OpticalRouteConfig', OpticalRouteConfigSchema);
+
+
+
+
+
 
 
 
@@ -397,17 +446,73 @@ app.delete('/api/client-info/:id', authMiddleware, async (req, res) => {
 
 
 
+// Dans server.js
+const AdHocTestConfigSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+    unique: true
+  },
+  settings: {
+    wavelength: String,
+    resolution: String,
+    duration: String,
+    ior: String,
+    rbs: String,
+    helixFactor: String,
+    spliceLoss: String,
+    reflectance: String,
+    endFiber: String
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+const AdHocTestConfig = mongoose.model('AdHocTestConfig', AdHocTestConfigSchema);
 
 
 
 
-
-
-
-
-
-
-
+// Routes pour AdHocTest
+app.route('/api/ad-hoc-tests')
+  .get(authMiddleware, async (req, res) => {
+    try {
+      const config = await AdHocTestConfig.findOne({ userId: req.user.id });
+      res.json({ success: true, config });
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Error fetching config", error: error.message });
+    }
+  })
+  .post(authMiddleware, async (req, res) => {
+    try {
+      const existing = await AdHocTestConfig.findOne({ userId: req.user.id });
+      if (existing) return res.status(400).json({ message: "Config exists. Use PUT." });
+      
+      const newConfig = new AdHocTestConfig({ 
+        userId: req.user.id,
+        settings: req.body.settings
+      });
+      await newConfig.save();
+      res.json({ success: true, config: newConfig });
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Error saving config", error: error.message });
+    }
+  })
+  .put(authMiddleware, async (req, res) => {
+    try {
+      const updated = await AdHocTestConfig.findOneAndUpdate(
+        { userId: req.user.id },
+        { settings: req.body.settings },
+        { new: true, upsert: true }
+      );
+      res.json({ success: true, config: updated });
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Error updating config", error: error.message });
+    }
+  });
 
 app.route('/api/ems-config')
     .get(authMiddleware, async (req, res) => {
@@ -614,6 +719,115 @@ app.route('/api/threshold-config')
         });
     }
 });
+
+
+
+
+
+
+app.route('/api/optical-routes')
+  .get(authMiddleware, async (req, res) => {
+    try {
+      const config = await OpticalRouteConfig.findOne({ userId: req.user.id });
+      res.json({ success: true, config });
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Error fetching optical routes", error: error.message });
+    }
+  })
+  .post(authMiddleware, async (req, res) => {
+    try {
+      const existing = await OpticalRouteConfig.findOne({ userId: req.user.id });
+      if (existing) {
+        return res.status(400).json({ success: false, message: "Configuration already exists. Use PUT to update." });
+      }
+      const config = new OpticalRouteConfig({ userId: req.user.id, ...req.body });
+      await config.save();
+      res.json({ success: true, message: "Optical route saved", config });
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Error saving optical routes", error: error.message });
+    }
+  })
+  .put(authMiddleware, async (req, res) => {
+    try {
+      const updated = await OpticalRouteConfig.findOneAndUpdate(
+        { userId: req.user.id },
+        req.body,
+        { new: true, upsert: true }
+      );
+      res.json({ success: true, message: "Optical route updated", config: updated });
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Error updating optical routes", error: error.message });
+    }
+  });
+
+
+
+
+
+// Remplacer la route existante par
+app.route('/api/ad-hoc-test')
+  .get(authMiddleware, async (req, res) => {
+    try {
+      const config = await AdHocTest.findOne({ userId: req.user.id });
+      res.json({ success: true, config });
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Error fetching config", error: error.message });
+    }
+  })
+  .put(authMiddleware, async (req, res) => {
+    try {
+      const updated = await AdHocTest.findOneAndUpdate(
+        { userId: req.user.id },
+        req.body,
+        { new: true, upsert: true }
+      );
+      res.json({ success: true, message: "Configuration saved", config: updated });
+    } catch (error) {
+      res.status(500).json({ success: false, message: "Error saving config", error: error.message });
+    }
+  });
+
+
+  
+
+
+
+
+
+
+
+
+app.use('/api/python', pythonRoutes);
+
+
+
+
+
+// Nouvelle route pour obtenir le dernier PDF
+app.get('/api/latest-report', (req, res) => {
+  const reportsDir = path.join(__dirname, '../frontend/public/reports');
+  
+  fs.readdir(reportsDir, (err, files) => {
+      if (err) return res.status(500).json({ error: 'Erreur de lecture du dossier' });
+
+      const pdfFiles = files.filter(file => file.endsWith('.pdf'));
+      if (pdfFiles.length === 0) return res.status(404).json({ error: 'Aucun rapport disponible' });
+
+      const sortedFiles = pdfFiles.map(file => ({
+          name: file,
+          time: fs.statSync(path.join(reportsDir, file)).mtime.getTime()
+      })).sort((a, b) => b.time - a.time);
+
+      res.json({ latestPdf: sortedFiles[0].name });
+  });
+});
+
+// Ajoutez cette ligne pour servir les fichiers statiques
+app.use('/reports', express.static(path.join(__dirname, '../frontend/public/reports')));
+
+
+
+
 
 
 

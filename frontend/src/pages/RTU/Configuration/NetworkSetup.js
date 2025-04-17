@@ -122,7 +122,7 @@ const NetworkSetup = () => {
             
             <main className="network-content">
                 <div className="network-form">
-                    <fieldset className="form-section">
+                    <fieldset className="formm-section">
                         <legend>Rear Ethernet Adapter</legend>
                         <label>
                             <input
@@ -141,14 +141,14 @@ const NetworkSetup = () => {
                         {renderInput("Secondary DNS:", "rearSecondaryDns")}
                     </fieldset>
 
-                    <fieldset className="form-section">
+                    <fieldset className="formm-section">
                         <legend>Local Access Port</legend>
                         {renderInput("IP Address:", "localIp", "text", "192.168.0.1")}
                         {renderInput("Subnet mask:", "localSubnet", "text", "255.255.0.0")}
                         {renderInput("MAC address:", "localMac", "text", "00:0b:ab:2a:f7:18")}
                     </fieldset>
 
-                    <fieldset className="form-section">
+                    <fieldset className="formm-section">
                         <legend>EMS Server Configuration</legend>
                         {renderInput("IP Address / Host Name:", "emsHost")}
                         {renderInput("Regular frequency (hrs):", "emsFrequency", "number", "24")}
@@ -167,7 +167,7 @@ const NetworkSetup = () => {
                         </div>
                     </fieldset>
 
-                    <fieldset className="form-section">
+                    <fieldset className="formm-section">
                         <legend>E-Mail Server Configuration</legend>
                         {renderInput("IP Address / Host Name:", "emailHost")}
                         {renderInput("Port:", "emailPort", "number")}
