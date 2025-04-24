@@ -216,6 +216,37 @@ const OpticalRouteConfig = mongoose.model('OpticalRouteConfig', OpticalRouteConf
 
 
 
+// Dans server.js
+const AdHocTestConfigSchema = new mongoose.Schema({
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true,
+    unique: true
+  },
+  settings: {
+    wavelength: String,
+    resolution: String,
+    duration: String,
+    ior: String,
+    rbs: String,
+    helixFactor: String,
+    spliceLoss: String,
+    reflectance: String,
+    endFiber: String
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now
+  }
+});
+
+const AdHocTestConfig = mongoose.model('AdHocTestConfig', AdHocTestConfigSchema);
+
+
+
+
+
 
 
 
@@ -446,32 +477,6 @@ app.delete('/api/client-info/:id', authMiddleware, async (req, res) => {
 
 
 
-// Dans server.js
-const AdHocTestConfigSchema = new mongoose.Schema({
-  userId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'User',
-    required: true,
-    unique: true
-  },
-  settings: {
-    wavelength: String,
-    resolution: String,
-    duration: String,
-    ior: String,
-    rbs: String,
-    helixFactor: String,
-    spliceLoss: String,
-    reflectance: String,
-    endFiber: String
-  },
-  updatedAt: {
-    type: Date,
-    default: Date.now
-  }
-});
-
-const AdHocTestConfig = mongoose.model('AdHocTestConfig', AdHocTestConfigSchema);
 
 
 
@@ -764,29 +769,6 @@ app.route('/api/optical-routes')
 
 
 
-// Remplacer la route existante par
-app.route('/api/ad-hoc-test')
-  .get(authMiddleware, async (req, res) => {
-    try {
-      const config = await AdHocTest.findOne({ userId: req.user.id });
-      res.json({ success: true, config });
-    } catch (error) {
-      res.status(500).json({ success: false, message: "Error fetching config", error: error.message });
-    }
-  })
-  .put(authMiddleware, async (req, res) => {
-    try {
-      const updated = await AdHocTest.findOneAndUpdate(
-        { userId: req.user.id },
-        req.body,
-        { new: true, upsert: true }
-      );
-      res.json({ success: true, message: "Configuration saved", config: updated });
-    } catch (error) {
-      res.status(500).json({ success: false, message: "Error saving config", error: error.message });
-    }
-  });
-
 
   
 
@@ -803,24 +785,32 @@ app.use('/api/python', pythonRoutes);
 
 
 
-// Nouvelle route pour obtenir le dernier PDF
-app.get('/api/latest-report', (req, res) => {
-  const reportsDir = path.join(__dirname, '../frontend/public/reports');
-  
-  fs.readdir(reportsDir, (err, files) => {
-      if (err) return res.status(500).json({ error: 'Erreur de lecture du dossier' });
+app.get('/api/latest-faults', (req, res) => {
+  const faultsDir = path.join(__dirname, '../frontend/public/faults');
 
-      const pdfFiles = files.filter(file => file.endsWith('.pdf'));
-      if (pdfFiles.length === 0) return res.status(404).json({ error: 'Aucun rapport disponible' });
+  fs.readdir(faultsDir, (err, files) => {
+    if (err) {
+      return res.status(500).json({ error: 'Erreur lecture du dossier faults' });
+    }
 
-      const sortedFiles = pdfFiles.map(file => ({
-          name: file,
-          time: fs.statSync(path.join(reportsDir, file)).mtime.getTime()
-      })).sort((a, b) => b.time - a.time);
+    const pdfFiles = files.filter(file => file.endsWith('.pdf'));
+    if (pdfFiles.length === 0) {
+      return res.status(404).json({ error: 'Aucun PDF trouvé' });
+    }
 
-      res.json({ latestPdf: sortedFiles[0].name });
+    const latest = pdfFiles
+      .map(file => ({
+        name: file,
+        time: fs.statSync(path.join(faultsDir, file)).mtime.getTime()
+      }))
+      .sort((a, b) => b.time - a.time)[0];
+
+    res.json({ latestPdf: latest.name });
   });
 });
+// Servir les fichiers PDF du dossier faults
+app.use('/faults', express.static(path.join(__dirname, '../frontend/public/faults')));
+
 
 // Ajoutez cette ligne pour servir les fichiers statiques
 app.use('/reports', express.static(path.join(__dirname, '../frontend/public/reports')));

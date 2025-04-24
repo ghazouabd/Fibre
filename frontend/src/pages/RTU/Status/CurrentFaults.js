@@ -8,8 +8,34 @@ import axios from "axios";
 
 const CurrentFaults = () => {
     const userName = localStorage.getItem("userName") || "User";
+    const [loading, setLoading] = useState(false);
+    const [latestPdf, setLatestPdf] = useState(null);
+      
     
+    const runPythonScript2 = async () => {
+        try {
+          setLoading(true);
+          const res = await axios.get('http://localhost:5000/api/python/run-interact');
+          alert("Détection lancée");
+        } catch (err) {
+          console.error(err);
+          alert("Erreur lors de l'exécution du script.");
+        } finally {
+          setLoading(false);
+        }
+      };
+      
 
+      const fetchLatestPdf = async () => {
+        try {
+          const response = await axios.get('http://localhost:5000/api/latest-faults');
+          setLatestPdf(response.data.latestPdf);
+        } catch (error) {
+          console.error("Erreur PDF:", error);
+          alert("Aucun rapport disponible");
+        }
+      };
+    
     return (
         <div className="c-container">
             {/* Header avec espacement */}
@@ -28,7 +54,28 @@ const CurrentFaults = () => {
             
             <Navbar />
             </div>
-            
+            <main className="opt-content">
+            <div className="action-buttons">
+          <button type="button" className="detectt-btn" disabled={loading} onClick={runPythonScript2}>
+            {loading ? 'Processing...' : 'Detect a fault'}
+          </button>
+
+          <button onClick={fetchLatestPdf} className="pdf-button">
+            Show Faults
+          </button>
+        </div>
+        {latestPdf && (
+          <div className="pdff-viewer">
+            <div className="pdff-info">
+              Faults  : {latestPdf.replace('.pdf', '')}
+            </div>
+            <iframe
+              title="Rapport OTDR"
+              src={`http://localhost:5000/faults/${latestPdf}`}
+            />
+          </div>
+        )}
+        </main>
         </div>
     );
 }
