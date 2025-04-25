@@ -785,6 +785,26 @@ app.use('/api/python', pythonRoutes);
 
 
 
+
+app.get('/api/latest-report', (req, res) => {
+  const reportsDir = path.join(__dirname, '../frontend/public/reports');
+  
+  fs.readdir(reportsDir, (err, files) => {
+      if (err) return res.status(500).json({ error: 'Erreur de lecture du dossier' });
+
+      const pdfFiles = files.filter(file => file.endsWith('.pdf'));
+      if (pdfFiles.length === 0) return res.status(404).json({ error: 'Aucun rapport disponible' });
+
+      const sortedFiles = pdfFiles.map(file => ({
+          name: file,
+          time: fs.statSync(path.join(reportsDir, file)).mtime.getTime()
+      })).sort((a, b) => b.time - a.time);
+
+      res.json({ latestPdf: sortedFiles[0].name });
+  });
+});
+
+
 app.get('/api/latest-faults', (req, res) => {
   const faultsDir = path.join(__dirname, '../frontend/public/faults');
 
