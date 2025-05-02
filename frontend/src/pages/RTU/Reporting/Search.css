@@ -1,47 +1,242 @@
 .s-container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .s-header {
-    padding: 20px;
-    background-color: #f8f9fa;
-    border-bottom: 1px solid #e7e7e7;
-    display: flex;
-    align-items: center;
-    gap: 20px; /* Espace entre FAST et c */
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e7e7e7;
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
 .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    z-index: 1000;
-    background: white; 
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: white; 
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1); 
 }
 
 .s-logo {
-    font-size: 24px;
-    font-weight: bold;
-    color: #1e40af;
-    text-decoration: none;
+  font-size: 24px;
+  font-weight: bold;
+  color: #1e40af;
+  text-decoration: none;
 }
-.s-title {
-    color:#009ca1; /* Couleur orange */
-    
-    
-  }
 
+.s-title {
+  color: #009ca1;
+}
 
 .s-content {
-    flex: 1;
-    padding: 2rem;
-    margin-top: 170px;
-    
-   
+  flex: 1;
+  padding: 2rem;
+  margin-top: 170px;
 }
-.h2 {
-    font-size: 24px;
+
+.routes-button {
+  padding: 10px 15px;
+  background-color: #4a6fa5;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-bottom: 20px;
+}
+
+.routes-button:hover {
+  background-color: #3a5a8c;
+}
+
+.routes-table-container {
+  margin-top: 10px;
+  overflow-x: auto;
+  width: 100%;
+}
+
+.routes-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  table-layout: fixed;
+}
+
+.routes-table th, .routes-table td {
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.routes-table th {
+  background-color: #f2f2f2;
+  position: sticky;
+  top: 0;
+}
+
+.routes-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.routes-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+.state-active {
+  color: green;
+  font-weight: bold;
+}
+
+.state-inactive {
+  color: red;
+}
+
+.state-maintenance {
+  color: orange;
+}
+
+.actions-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 150px;
+}
+
+.table-detect-btn, .table-pdf-btn {
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  text-align: center;
+  width: 100%;
+}
+
+.table-detect-btn {
+  background-color: #007acc;
+  color: white;
+}
+
+.table-detect-btn:hover {
+  background-color: #125ca1;
+}
+
+.table-detect-btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+
+.table-pdf-btn {
+  background-color: #28a745;
+  color: white;
+}
+
+.table-pdf-btn:hover {
+  background-color: #218838;
+}
+
+.pdf-preview-cell {
+  width: 300px;
+}
+
+.table-pdf-viewer {
+  width: 100%;
+  height: 200px;
+  border: 1px solid #ddd;
+  background: #f8f8f8;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1200px) {
+  .routes-table {
+      display: block;
+      overflow-x: auto;
+  }
+  
+  .pdf-preview-cell {
+      width: 250px;
+  }
+  
+  .table-pdf-viewer {
+      height: 150px;
+  }
+}
+/* Ajoutez ceci à votre fichier Search.css */
+.actions-cell {
+  white-space: nowrap;
+}
+
+.pdf-preview-cell {
+  min-width: 300px;
+}
+
+.table-pdf-viewer {
+  transition: all 0.3s ease;
+}
+
+
+/* Full PDF Viewer Styles */
+.full-report-button-container {
+  margin: 30px 0;
+  text-align: center;
+}
+
+.full-pdf-button {
+  padding: 12px 24px;
+  background-color: #007acc;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.full-pdf-button:hover {
+  background-color: #125ca1;
+}
+
+.full-pdf-viewer {
+  margin-top: 40px;
+  width: 100%;
+  text-align: center;
+  background-color: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.full-pdf-iframe {
+  width: 80%;
+  height: 800px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-top: 15px;
+}
+
+.pdf-info {
+  font-style: italic;
+  color: #7f8c8d;
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .full-pdf-iframe {
+      width: 95%;
+      height: 500px;
+  }
+  
+  .full-pdf-viewer {
+      margin-top: 20px;
+      padding: 10px;
+  }
 }

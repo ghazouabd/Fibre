@@ -133,72 +133,7 @@
 }
 
 
-.action-buttons {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 16px; /* espace entre les deux boutons */
-  margin-top: 20px;
-}
 
-.detectt-btn,
-.pdf-button {
-  padding: 10px 24px;
-  font-size: 1rem;
-  font-weight: 500;
-  border: none;
-  border-radius: 8px;
-  background-color:  #007acc;
-  color: white;
-  cursor: pointer;
-  min-width: 160px; /* assure la même largeur pour les deux */
-  text-align: center;
-  transition: background-color 0.3s ease;
-}
-
-.detectt-btn:hover,
-.pdf-button:hover {
-  background-color: #125ca1;
-}
-
-.detection-status {
-  font-size: 0.85rem;
-  padding: 4px 8px;
-  margin: 6px 0;
-  border-radius: 8px;
-  border: none;
-  outline: none;
-  color: white;
-  font-weight: 500;
-  width: fit-content;
-}
-
-
-
-/***********************************************************/
-  /**************************************************/
-
-
-  .pdf-viewer {
-    display: flex;
-    flex-direction: column;
-    align-items: center; /* centre horizontalement */
-    justify-content: center; /* centre verticalement si hauteur définie */
-    margin-top: 20px;
-    width: 100%;
-  }
-  .pdf-viewer iframe {
-    width: 60%;
-    height: 800px;
-    border: none;
-    margin-top: 20px;
-  }
-  
-  .pdf-info {
-    margin-top: 10px;
-    font-style: italic;
-  }
-  
   .test-table {
     margin-top: 20px;
     background: #e5f1f7;
@@ -316,3 +251,21 @@
     cursor: not-allowed;
   }
   
+
+.navigate-button {
+    padding: 10px 24px;
+    font-size: 1rem;
+    font-weight: 500;
+    border: none;
+    border-radius: 8px;
+    background-color:  #007acc;
+    color: white;
+    cursor: pointer;
+    min-width: 160px; /* assure la même largeur pour les deux */
+    text-align: center;
+    transition: background-color 0.3s ease;
+    margin-top: 20px;
+  }
+  .navigate-button:hover{
+  background-color: #125ca1;
+  }

@@ -2,15 +2,16 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../../../components/Navbar';
 import './OpticalRoutes.css';
-import { Link } from 'react-router-dom';
+import { Link ,useNavigate } from 'react-router-dom';
 import { FaUser } from "react-icons/fa";
 
+
 const OpticalRoutes = () => {
+  const navigate = useNavigate();
+
   const userName = localStorage.getItem("userName") || "User";
   const token = localStorage.getItem("token");
 
-  const [latestPdf, setLatestPdf] = useState(null);
-  const [loading, setLoading] = useState(false);
   const [editMode, setEditMode] = useState(false);
 
   const [name, setName] = useState("OTH S/N:40290");
@@ -96,29 +97,7 @@ const OpticalRoutes = () => {
     setEditMode(false);
   };
 
-  const runPythonScript1 = async () => {
-    try {
-      setLoading(true);
-      const res = await axios.get('http://localhost:5000/api/python/run-consumer');
-      
-    } catch (err) {
-      console.error(err);
-      alert("Erreur lors de l'exécution du script.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchLatestPdf = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/api/latest-report');
-      setLatestPdf(response.data.latestPdf);
-    } catch (error) {
-      console.error("Erreur PDF:", error);
-      alert("Aucun rapport disponible");
-    }
-  };
-
+  
   return (
     <div className="opt-container">
       <div className="header">
@@ -206,28 +185,10 @@ const OpticalRoutes = () => {
 
           {editMode && <button type="submit" className="save-button">Apply</button>}
         </form>
+        <button className="navigate-button" onClick={() => navigate('/reporting/Search')}>
+        Analyze routes
+        </button>
 
-        <div className="action-buttons">
-          <button type="button" className="detectt-btn" disabled={loading} onClick={runPythonScript1}>
-            {loading ? 'Processing...' : 'Detect'}
-          </button>
-
-          <button onClick={fetchLatestPdf} className="pdf-button">
-            Show Detection Result
-          </button>
-        </div>
-
-        {latestPdf && (
-          <div className="pdf-viewer">
-            <div className="pdf-info">
-              Actual Report of : {latestPdf.replace('.pdf', '')}
-            </div>
-            <iframe
-              title="Rapport OTDR"
-              src={`http://localhost:5000/reports/${latestPdf}`}
-            />
-          </div>
-        )}
       </main>
     </div>
   );

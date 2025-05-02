@@ -247,7 +247,14 @@ const AdHocTestConfig = mongoose.model('AdHocTestConfig', AdHocTestConfigSchema)
 
 
 
-
+const RouteSchema = new mongoose.Schema({
+  nom: String,
+  port: Number,
+  state: String,
+  date: Date,
+  test_information: mongoose.Schema.Types.Mixed // Accepte String ou Object
+});
+const Route = mongoose.model('Route', RouteSchema);
 
 
 
@@ -837,11 +844,15 @@ app.use('/reports', express.static(path.join(__dirname, '../frontend/public/repo
 
 
 
-
-
-
-
-
+// Ajoutez cette route à votre server.js
+app.get('/api/routes', async (req, res) => {
+  try {
+    const routes = await Route.find();
+    res.json(routes);
+  } catch (err) {
+    res.status(500).json({ error: 'Erreur serveur' });
+  }
+});
 
 
 const PORT = process.env.PORT || 5000;
