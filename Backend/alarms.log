@@ -1,0 +1,1 @@
+2025-05-06T00:01:12.459583: {'eventType': 'AMPLITUDE_DROP', 'severity': 'Coarse', 'location': '41.90 km', 'amplitude': -43.067, 'deviation': 1.0, 'threshold': 0.5, 'timestamp': '2025-05-06T00:01:12.439549', 'file': 'sfax nord - eljem- sncft-route03-Fiber0075-1550nm1625nm_1550.SOR'}
