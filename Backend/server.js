@@ -11,6 +11,23 @@ const fs = require('fs');
 const path = require('path');
 
 
+const http = require('http');
+const socketIo = require('socket.io');
+
+const server = http.createServer(app);
+const io = socketIo(server, {
+  cors: {
+    origin: '*',
+    methods: ['GET', 'POST']
+  }
+});
+io.on('connection', (socket) => {
+  console.log('Client connecté');
+});
+app.set('io', io);
+
+
+
 // Middleware
 app.use(express.json());
 app.use(cors({
@@ -255,6 +272,29 @@ const RouteSchema = new mongoose.Schema({
   test_information: mongoose.Schema.Types.Mixed // Accepte String ou Object
 });
 const Route = mongoose.model('Route', RouteSchema);
+
+
+
+
+
+
+
+const NotificationSchema = new mongoose.Schema({
+  eventType: String,
+  severity: String,
+  location: String,
+  amplitude: Number,
+  deviation: Number,
+  threshold: Number,
+  timestamp: String,
+  file: String,
+  read: { type: Boolean, default: false }
+}, { timestamps: true });
+
+const Notification = mongoose.model('Notification', NotificationSchema);
+
+
+
 
 
 
@@ -853,6 +893,43 @@ app.get('/api/routes', async (req, res) => {
     res.status(500).json({ error: 'Erreur serveur' });
   }
 });
+
+
+
+
+
+
+app.post('/api/notifications', async (req, res) => {
+  try {
+    const notification = new Notification(req.body);
+    await notification.save();
+    res.status(201).json({ success: true, message: 'Notification saved' });
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error saving notification', error: error.message });
+  }
+});
+app.put('/api/notifications/:id/read', async (req, res) => {
+  try {
+    const notification = await Notification.findByIdAndUpdate(req.params.id, { read: true }, { new: true });
+    if (!notification) return res.status(404).json({ message: 'Notification not found' });
+    res.json({ success: true, notification });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+app.get('/api/notifications', async (req, res) => {
+  try {
+    const notifications = await Notification.find().sort({ createdAt: -1 }); // tri des plus récentes en premier
+    res.json(notifications);
+  } catch (error) {
+    res.status(500).json({ success: false, message: 'Error fetching notifications', error: error.message });
+  }
+});
+
+
+
+
+
 
 
 const PORT = process.env.PORT || 5000;

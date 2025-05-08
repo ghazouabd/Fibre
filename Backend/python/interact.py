@@ -17,6 +17,7 @@ import copy
 import struct
 from pySorReader import sorReader
 from matplotlib.backends.backend_pdf import PdfPages
+import requests
 
 
 class FiberAnalyzer(QMainWindow):
@@ -562,6 +563,7 @@ Veuillez prendre les mesures nécessaires.
                         
                         # Send email notification with PDF
                         email_sent = self.send_email_notification(alarm_data, pdf_path)
+                        self.save_notification_to_server(alarm_data)
                         
                         # Show message to user
                         email_status = "Notification email sent to monitoring team." if email_sent else "Failed to send notification email."
@@ -1038,7 +1040,16 @@ Veuillez prendre les mesures nécessaires.
                 next_index = v[0]
                 next_key = k
         return next_key
-
+    def save_notification_to_server(self, alarm_data):
+        try:
+            url = 'http://localhost:5000/api/notifications'
+            response = requests.post(url, json=alarm_data)
+            if response.status_code == 201:
+                print("Notification saved to server successfully")
+            else:
+                print("Failed to save notification to server:", response.text)
+        except Exception as e:
+            print("Error sending notification to server:", e)
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

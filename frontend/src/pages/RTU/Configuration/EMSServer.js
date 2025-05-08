@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../../../components/Navbar';
 import './EMSServer.css';
-import { FaUser } from "react-icons/fa";
+import { FaUser,FaHome } from "react-icons/fa";
 import axios from 'axios';
+import backgroundVideo from '../../../assets/videos/fibre.mp4';
+
 
 const EMSServer = () => {
     const userName = localStorage.getItem("userName") || "User";
@@ -97,9 +99,13 @@ const EMSServer = () => {
 
     return (
         <div className="server-settings-container">
+            
             <div className="header">
                 <header className="server-header">
-                    <Link to="/Home" className="server-logo">FAST</Link>
+                    <Link to="/Home" className="server-logo">OptiTrack</Link>
+                    <Link to="/Onboard" className="s-link">
+                                            <FaHome className="s-icon" size={20} />
+                                            </Link>
                     <FaUser className="server-icon" />
                     <span>{userName}</span>
                     <h1 className="server-title">- EMS Server</h1>
@@ -176,6 +182,14 @@ const EMSServer = () => {
                     {showSuccess && <p className="success-notice">Configuration saved successfully!</p>}
                 </div>
             </main>
+            <div className="video-background">
+                                        <video autoPlay loop muted playsInline>
+                                            <source src={backgroundVideo} type="video/mp4" />
+                                            Your browser does not support the video tag.
+                                        </video>
+                                        
+                                       
+                            </div>
         </div>
     );
 };

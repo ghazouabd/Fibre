@@ -4,7 +4,7 @@ import './CurrentFaults.css';
 import { FaUser , FaHome } from "react-icons/fa";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import backgroundVideo from '../../../assets/videos/fibre.mp4';
 
 const CurrentFaults = () => {
     const userName = localStorage.getItem("userName") || "User";
@@ -42,8 +42,12 @@ const CurrentFaults = () => {
 
 
         <div className="header"> 
+          
             <header className="c-header">
-                <Link to="/Home" className="c-logo">FAST</Link>
+                <Link to="/Home" className="c-logo">OptiTrack</Link>
+                <Link to="/Onboard" className="s-link">
+                                        <FaHome className="s-icon" size={20} />
+                                        </Link>
                 <FaUser className="c-icon" />
                     <span>{userName}</span>
                 <h1 className="c-title">- Current Faults</h1>
@@ -76,6 +80,14 @@ const CurrentFaults = () => {
           </div>
         )}
         </main>
+        <div className="video-background">
+                                      <video autoPlay loop muted playsInline>
+                                          <source src={backgroundVideo} type="video/mp4" />
+                                          Your browser does not support the video tag.
+                                      </video>
+                                      
+                                     
+                          </div>
         </div>
     );
 }

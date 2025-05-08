@@ -2,9 +2,10 @@
 import { Link } from 'react-router-dom';
 import Navbar from '../../../components/Navbar';
 import './AdHocTest.css';
-import { FaUser } from "react-icons/fa";
+import { FaUser,FaHome } from "react-icons/fa";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import backgroundVideo from '../../../assets/videos/fibre.mp4';
 
 const AdHocTest = () => {
     const userName = localStorage.getItem("userName") || "User";
@@ -92,9 +93,13 @@ const AdHocTest = () => {
 
     return (
         <div className="ad-container">
+            
             <div className="header">
                 <header className="ad-header">
-                    <Link to="/Home" className="ad-logo">FAST</Link>
+                    <Link to="/Home" className="ad-logo">OptiTrack</Link>
+                    <Link to="/Onboard" className="s-link">
+                                            <FaHome className="s-icon" size={20} />
+                                            </Link>
                     <FaUser className="ad-icon" />
                     <span>{userName}</span>
                     <h1 className="ad-title">- Ad Hoc Test</h1>
@@ -261,6 +266,14 @@ const AdHocTest = () => {
                     </div>
                 )}
             </main>
+            <div className="video-background">
+                                        <video autoPlay loop muted playsInline>
+                                            <source src={backgroundVideo} type="video/mp4" />
+                                            Your browser does not support the video tag.
+                                        </video>
+                                        
+                                       
+                            </div>
         </div>
     );
 };

@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../../../components/Navbar';
 import './NetworkSetup.css';
-import { FaUser } from "react-icons/fa";
+import { FaUser,FaHome } from "react-icons/fa";
 import axios from 'axios';
+import backgroundVideo from '../../../assets/videos/fibre.mp4';
 
 const NetworkSetup = () => {
     const userName = localStorage.getItem("userName") || "User";
@@ -108,9 +109,13 @@ const NetworkSetup = () => {
 
     return (
         <div className="network-container">
+            
             <div className="header">
                 <header className="network-header">
-                    <Link to="/Home" className="network-logo">FAST</Link>
+                    <Link to="/Home" className="network-logo">OptiTrack</Link>
+                    <Link to="/Onboard" className="s-link">
+                                            <FaHome className="s-icon" size={20} />
+                                            </Link>
                     <FaUser className="network-icon" />
                     <span>{userName}</span>
                     <h1 className="networK-title">- Network Setup</h1>
@@ -208,6 +213,14 @@ const NetworkSetup = () => {
                     </div>
                 </div>
             </main>
+            <div className="video-background">
+                                        <video autoPlay loop muted playsInline>
+                                            <source src={backgroundVideo} type="video/mp4" />
+                                            Your browser does not support the video tag.
+                                        </video>
+                                        
+                                       
+                            </div>
         </div>
     );
 };

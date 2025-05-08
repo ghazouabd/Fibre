@@ -14,7 +14,6 @@
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1; /* Places video behind content */
 }
 
 .video-background video {
@@ -68,12 +67,6 @@
     color: #ff6b00;
 }
 
-/* Spacer (optional) */
-.header-spacer {
-    height: 10px;
-    position: relative; /* Maintains layout order */
-    z-index: 2;
-}
 
 /* Navbar (ensure it stays above video) */
 .navbar {

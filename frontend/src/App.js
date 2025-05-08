@@ -26,6 +26,7 @@ import ThresholdSets from "./pages/RTU/Configuration/ThresholdSets";
 import CurrentFaults from "./pages/RTU/Status/CurrentFaults";
 import Search from "./pages/RTU/Reporting/Search";
 import AdHocTest from "./pages/RTU/ManualTest/AdHocTest";
+import Notifications from "./pages/RTU/Notifications/Notifications";
 
 function App() {
   useEffect(() => {
@@ -64,6 +65,8 @@ function App() {
           <Route path="/status/Current-Faults" element={< CurrentFaults/>} />
           <Route path="/reporting/Search" element={< Search/>} />
           <Route path="/manual-test/ad-hoc-test" element={< AdHocTest/>} />
+          <Route path="/notifications/notifications" element={< Notifications/>} />
+
 
 
         </Routes>

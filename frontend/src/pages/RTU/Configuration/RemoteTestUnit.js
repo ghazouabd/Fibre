@@ -4,7 +4,7 @@ import './RemoteTestUnit.css';
 import { FaUser , FaHome } from "react-icons/fa";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-
+import backgroundVideo from '../../../assets/videos/fibre.mp4';
 
 const RemoteTestUnit = () => {
     const userName = localStorage.getItem("userName") || "User";
@@ -108,7 +108,10 @@ const RemoteTestUnit = () => {
 
         <div className="header"> 
             <header className="remote-header">
-                <Link to="/Home" className="remote-logo">FAST</Link>
+                <Link to="/Home" className="remote-logo">OptiTrack</Link>
+                <Link to="/Onboard" className="s-link">
+                                        <FaHome className="s-icon" size={20} />
+                                        </Link>
                 <FaUser className="remote-icon" />
                     <span>{userName}</span>
                 <h1 className="remote-title">- Remote Test Unit</h1>
@@ -185,8 +188,15 @@ const RemoteTestUnit = () => {
 
 
 
-                {/* Ajoutez ici le contenu de votre page */}
             </main>
+            <div className="video-background">
+                            <video autoPlay loop muted playsInline>
+                                <source src={backgroundVideo} type="video/mp4" />
+                                Your browser does not support the video tag.
+                            </video>
+                            
+                           
+                </div>
         </div>
     );
 }

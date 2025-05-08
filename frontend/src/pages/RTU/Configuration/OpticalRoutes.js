@@ -3,7 +3,8 @@ import axios from 'axios';
 import Navbar from '../../../components/Navbar';
 import './OpticalRoutes.css';
 import { Link ,useNavigate } from 'react-router-dom';
-import { FaUser } from "react-icons/fa";
+import { FaUser,FaHome } from "react-icons/fa";
+import backgroundVideo from '../../../assets/videos/fibre.mp4';
 
 
 const OpticalRoutes = () => {
@@ -100,9 +101,13 @@ const OpticalRoutes = () => {
   
   return (
     <div className="opt-container">
+      
       <div className="header">
         <header className="opt-header">
-          <Link to="/Home" className="opt-logo">FAST</Link>
+          <Link to="/Home" className="opt-logo">OptiTrack</Link>
+          <Link to="/Onboard" className="s-link">
+                                  <FaHome className="s-icon" size={20} />
+                                  </Link>
           <FaUser className="network-icon" />
           <span>{userName}</span>
           <h1 className="opt-title">- Optical Routes</h1>
@@ -190,6 +195,14 @@ const OpticalRoutes = () => {
         </button>
 
       </main>
+      <div className="video-background">
+                                  <video autoPlay loop muted playsInline>
+                                      <source src={backgroundVideo} type="video/mp4" />
+                                      Your browser does not support the video tag.
+                                  </video>
+                                  
+                                 
+                      </div>
     </div>
   );
 };

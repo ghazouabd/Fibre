@@ -1,9 +1,10 @@
 import { Link } from 'react-router-dom';
 import Navbar from '../../../components/Navbar';
 import './Search.css'; 
-import { FaUser } from "react-icons/fa";
+import { FaUser,FaHome } from "react-icons/fa";
 import React, { useState } from "react";
 import axios from "axios";
+import backgroundVideo from '../../../assets/videos/fibre.mp4';
 
 const Search = () => {
     const userName = localStorage.getItem("userName") || "User";
@@ -56,10 +57,20 @@ const Search = () => {
     };
 
     return (
-        <div className="s-container">
+        <div className="s-container"><div className="video-background">
+                                    <video autoPlay loop muted playsInline>
+                                        <source src={backgroundVideo} type="video/mp4" />
+                                        Your browser does not support the video tag.
+                                    </video>
+                                    
+                                   
+                        </div>
             <div className="header"> 
                 <header className="s-header">
-                    <Link to="/Home" className="s-logo">FAST</Link>
+                    <Link to="/Home" className="s-logo">OptiTrack</Link>
+                    <Link to="/Onboard" className="s-link">
+                                            <FaHome className="s-icon" size={20} />
+                                            </Link>
                     <FaUser className="s-icon" />
                     <span>{userName}</span>
                     <h1 className="s-title">- Search</h1>
@@ -156,6 +167,14 @@ const Search = () => {
                     </div>
                 )}
             </main>
+            <div className="video-background">
+                                              <video autoPlay loop muted playsInline>
+                                                  <source src={backgroundVideo} type="video/mp4" />
+                                                  Your browser does not support the video tag.
+                                              </video>
+                                              
+                                             
+                                  </div>
         </div>
     );
 }

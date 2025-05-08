@@ -25,7 +25,7 @@ const Onboard = () => {
 
             {/* Header */}
             <header className="onboard-header">
-                <Link to="/Home" className="onboard-logo">FAST</Link>
+                <Link to="/Home" className="onboard-logo">OptiTrack</Link>
                 <FaUser className="user-icon" />
                 <span>{userName}</span>
             </header>

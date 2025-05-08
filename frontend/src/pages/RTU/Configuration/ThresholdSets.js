@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../../../components/Navbar';
 import './ThresholdSets.css';
-import { FaUser } from "react-icons/fa";
+import { FaUser,FaHome } from "react-icons/fa";
 import axios from 'axios';
-
+import backgroundVideo from '../../../assets/videos/fibre.mp4';
 const ThresholdSets = () => {
     const userName = localStorage.getItem("userName") || "User";
     const [thresholds, setThresholds] = useState({
@@ -106,9 +106,13 @@ const ThresholdSets = () => {
 
     return (
         <div className="th-container">
+            
             <div className="header">
                 <header className="th-header">
-                    <Link to="/Home" className="th-logo">FAST</Link>
+                    <Link to="/Home" className="th-logo">OptiTrack</Link>
+                    <Link to="/Onboard" className="s-link">
+                                            <FaHome className="s-icon" size={20} />
+                                            </Link>
                     <FaUser className="th-icon" />
                     <span>{userName}</span>
                     <h1 className="th-title">- Threshold Sets</h1>
@@ -141,6 +145,14 @@ const ThresholdSets = () => {
                     </fieldset>
                 </div>
             </main>
+            <div className="video-background">
+                                        <video autoPlay loop muted playsInline>
+                                            <source src={backgroundVideo} type="video/mp4" />
+                                            Your browser does not support the video tag.
+                                        </video>
+                                        
+                                       
+                            </div>
         </div>
     );
 };
