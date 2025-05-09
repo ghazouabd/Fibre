@@ -2,14 +2,17 @@ import { Link } from 'react-router-dom';
 import Navbar from '../../../components/Navbar';
 import './CurrentFaults.css'; 
 import { FaUser , FaHome } from "react-icons/fa";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import backgroundVideo from '../../../assets/videos/fibre.mp4';
+import { io } from "socket.io-client";
+
 
 const CurrentFaults = () => {
     const userName = localStorage.getItem("userName") || "User";
     const [loading, setLoading] = useState(false);
     const [latestPdf, setLatestPdf] = useState(null);
+    const [notifications, setNotifications] = useState([]);
       
     
     const runPythonScript2 = async () => {
@@ -35,6 +38,21 @@ const CurrentFaults = () => {
           alert("Aucun rapport disponible");
         }
       };
+       useEffect(() => {
+        axios.get('http://localhost:5000/api/notifications')
+          .then((res) => setNotifications(res.data))
+          .catch((err) => console.error("Erreur chargement notifications:", err));
+      
+        const socket = io('http://localhost:5000');
+        socket.on('newNotification', (notif) => {
+          setNotifications((prev) => [notif, ...prev]);
+        });
+      
+        return () => socket.disconnect();
+      }, []);
+      const unreadCount = useMemo(() => {
+        return notifications.filter(notif => !notif.read).length;
+      }, [notifications]);
     
     return (
         <div className="c-container">
@@ -48,8 +66,11 @@ const CurrentFaults = () => {
                 <Link to="/Onboard" className="s-link">
                                         <FaHome className="s-icon" size={20} />
                                         </Link>
-                <FaUser className="c-icon" />
-                    <span>{userName}</span>
+                <div className="notif-user">
+                  <FaUser className="s-icon" />
+                  {unreadCount > 0 && <span className="notif-badge">{unreadCount}</span>}
+                </div>
+                <span>{userName}</span>
                 <h1 className="c-title">- Current Faults</h1>
             </header>
             

@@ -5,10 +5,30 @@ import './OpticalRoutes.css';
 import { Link ,useNavigate } from 'react-router-dom';
 import { FaUser,FaHome } from "react-icons/fa";
 import backgroundVideo from '../../../assets/videos/fibre.mp4';
+import {  useMemo } from "react";
+import { io } from "socket.io-client";
+
 
 
 const OpticalRoutes = () => {
   const navigate = useNavigate();
+     const [notifications, setNotifications] = useState([]);
+useEffect(() => {
+        axios.get('http://localhost:5000/api/notifications')
+          .then((res) => setNotifications(res.data))
+          .catch((err) => console.error("Erreur chargement notifications:", err));
+      
+        const socket = io('http://localhost:5000');
+        socket.on('newNotification', (notif) => {
+          setNotifications((prev) => [notif, ...prev]);
+        });
+      
+        return () => socket.disconnect();
+      }, []);
+      const unreadCount = useMemo(() => {
+        return notifications.filter(notif => !notif.read).length;
+      }, [notifications]);
+
 
   const userName = localStorage.getItem("userName") || "User";
   const token = localStorage.getItem("token");
@@ -108,8 +128,11 @@ const OpticalRoutes = () => {
           <Link to="/Onboard" className="s-link">
                                   <FaHome className="s-icon" size={20} />
                                   </Link>
-          <FaUser className="network-icon" />
-          <span>{userName}</span>
+
+                            <div className="notif-user">
+                                                          <FaUser className="s-icon" />
+                                                          {unreadCount > 0 && <span className="notif-badge">{unreadCount}</span>}
+                                                        </div>          <span>{userName}</span>
           <h1 className="opt-title">- Optical Routes</h1>
         </header>
         <div className="header-spacer"></div>

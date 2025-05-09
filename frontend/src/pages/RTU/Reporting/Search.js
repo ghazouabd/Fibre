@@ -5,8 +5,13 @@ import { FaUser,FaHome } from "react-icons/fa";
 import React, { useState } from "react";
 import axios from "axios";
 import backgroundVideo from '../../../assets/videos/fibre.mp4';
+import { useEffect, useMemo } from "react";
+import { io } from "socket.io-client";
+
 
 const Search = () => {
+    const [notifications, setNotifications] = useState([]);
+
     const userName = localStorage.getItem("userName") || "User";
     const [routes, setRoutes] = useState([]);
     const [showRoutes, setShowRoutes] = useState(false);
@@ -55,6 +60,22 @@ const Search = () => {
             console.error("Erreur lors de la récupération des routes:", error);
         }
     };
+useEffect(() => {
+        axios.get('http://localhost:5000/api/notifications')
+          .then((res) => setNotifications(res.data))
+          .catch((err) => console.error("Erreur chargement notifications:", err));
+      
+        const socket = io('http://localhost:5000');
+        socket.on('newNotification', (notif) => {
+          setNotifications((prev) => [notif, ...prev]);
+        });
+      
+        return () => socket.disconnect();
+      }, []);
+      const unreadCount = useMemo(() => {
+        return notifications.filter(notif => !notif.read).length;
+      }, [notifications]);
+
 
     return (
         <div className="s-container"><div className="video-background">
@@ -71,7 +92,10 @@ const Search = () => {
                     <Link to="/Onboard" className="s-link">
                                             <FaHome className="s-icon" size={20} />
                                             </Link>
-                    <FaUser className="s-icon" />
+                    <div className="notif-user">
+                                      <FaUser className="s-icon" />
+                                      {unreadCount > 0 && <span className="notif-badge">{unreadCount}</span>}
+                                    </div>
                     <span>{userName}</span>
                     <h1 className="s-title">- Search</h1>
                 </header>

@@ -17,14 +17,13 @@ const socketIo = require('socket.io');
 const server = http.createServer(app);
 const io = socketIo(server, {
   cors: {
-    origin: '*',
+   origin: "http://localhost:3000",
     methods: ['GET', 'POST']
   }
 });
 io.on('connection', (socket) => {
   console.log('Client connecté');
 });
-app.set('io', io);
 
 
 
@@ -34,6 +33,7 @@ app.use(cors({
   origin: "http://localhost:3000",
   credentials: true,
 }));
+app.set('io', io);
 
 // Connexion MongoDB
 mongoose.connect(process.env.MONGO_URI, {
@@ -902,12 +902,18 @@ app.get('/api/routes', async (req, res) => {
 app.post('/api/notifications', async (req, res) => {
   try {
     const notification = new Notification(req.body);
-    await notification.save();
+    const savedNotification = await notification.save();
+
+    // Émettre la notification en temps réel
+    const io = req.app.get('io'); // récupère l'instance socket.io injectée plus tôt
+    io.emit('newNotification', savedNotification); // broadcast au client
+
     res.status(201).json({ success: true, message: 'Notification saved' });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Error saving notification', error: error.message });
   }
 });
+
 app.put('/api/notifications/:id/read', async (req, res) => {
   try {
     const notification = await Notification.findByIdAndUpdate(req.params.id, { read: true }, { new: true });
@@ -933,4 +939,4 @@ app.get('/api/notifications', async (req, res) => {
 
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+server.listen(PORT, () => console.log(`Server running on port ${PORT}`));

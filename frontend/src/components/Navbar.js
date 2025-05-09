@@ -96,7 +96,6 @@ useEffect(() => {
     className={`nav-item ${location.pathname === '/notifications/notifications' ? 'active' : ''}`}
   >
     {item.label}
-    {unreadCount > 0 && <span className="notification-count">{unreadCount}</span>}
   </Link>
 ) : (
   <Link

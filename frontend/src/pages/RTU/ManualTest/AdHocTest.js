@@ -6,9 +6,30 @@ import { FaUser,FaHome } from "react-icons/fa";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import backgroundVideo from '../../../assets/videos/fibre.mp4';
+import {  useMemo } from "react";
+import { io } from "socket.io-client";
 
 const AdHocTest = () => {
     const userName = localStorage.getItem("userName") || "User";
+    const [notifications, setNotifications] = useState([]);
+
+
+useEffect(() => {
+        axios.get('http://localhost:5000/api/notifications')
+          .then((res) => setNotifications(res.data))
+          .catch((err) => console.error("Erreur chargement notifications:", err));
+      
+        const socket = io('http://localhost:5000');
+        socket.on('newNotification', (notif) => {
+          setNotifications((prev) => [notif, ...prev]);
+        });
+      
+        return () => socket.disconnect();
+      }, []);
+      const unreadCount = useMemo(() => {
+        return notifications.filter(notif => !notif.read).length;
+      }, [notifications]);
+
     const token = localStorage.getItem("token");
     const [loading, setLoading] = useState(false);
     const [latestPdf, setLatestPdf] = useState(null);
@@ -100,7 +121,10 @@ const AdHocTest = () => {
                     <Link to="/Onboard" className="s-link">
                                             <FaHome className="s-icon" size={20} />
                                             </Link>
-                    <FaUser className="ad-icon" />
+                    <div className="notif-user">
+     <FaUser className="s-icon" />
+    {unreadCount > 0 && <span className="notif-badge">{unreadCount}</span>}
+ </div>
                     <span>{userName}</span>
                     <h1 className="ad-title">- Ad Hoc Test</h1>
                 </header>

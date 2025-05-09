@@ -37,7 +37,7 @@ function App() {
     });
   }, []);
 
-  useDocTitle("FAST");
+  useDocTitle("OptiTrack");
 
   return (
     <Router>

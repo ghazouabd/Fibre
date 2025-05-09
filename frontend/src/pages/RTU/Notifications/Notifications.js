@@ -1,17 +1,24 @@
 import { Link } from 'react-router-dom';
 import Navbar from '../../../components/Navbar';
 import './Notifications.css'; 
-import { FaUser } from "react-icons/fa";
+import { FaUser,FaHome } from "react-icons/fa";
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import backgroundVideo from '../../../assets/videos/fibre.mp4';
 import { io } from 'socket.io-client';
+import { useMemo } from 'react';
+
 
 
 
 const Notifications = () => {
     const userName = localStorage.getItem("userName") || "User";
+    
     const [notifications, setNotifications] = useState([]);
+    const unreadCount = useMemo(() => {
+  return notifications.filter(notif => !notif.read).length;
+}, [notifications]);
+
     const socket = io('http://localhost:5000');
 
 useEffect(() => {
@@ -51,8 +58,16 @@ useEffect(() => {
             <div className="header"> 
                 <header className="s-header">
                     <Link to="/Home" className="s-logo">OptiTrack</Link>
-                    <FaUser className="s-icon" />
-                    <span>{userName}</span>
+                    <Link to="/Onboard" className="s-link">
+                                                                <FaHome className="s-icon" size={20} />
+                                                                </Link>
+                    <div className="notif-user">
+  <FaUser className="s-icon" />
+  {unreadCount > 0 && <span className="notif-badge">{unreadCount}</span>}
+</div>
+
+<span>{userName}</span>
+
                     <h1 className="s-title">- Notifications</h1>
                 </header>
                 
@@ -62,7 +77,7 @@ useEffect(() => {
             
             <main className="s-content">
                 {notifications.length === 0 ? (
-                    <p>Aucune notification.</p>
+                    <p className='pp'>Aucune notification .....</p>
                 ) : (
                     <table className="notif-table">
   <thead>
