@@ -46,9 +46,9 @@ class FiberAnalyzer(QMainWindow):
             'enabled': True,
             'smtp_server': 'smtp.gmail.com',
             'smtp_port': 587,
-            'smtp_username': 'ghazouabedoui05@gmail.com',  
-            'smtp_password': 'ebofjpmfmsfgvomp',  
-            'recipients': ['eya.ebnelbakouch@supcom.tn','ghazouabedoui05@gmail.com','ghazoua.bedoui@supcom.tn'],
+            'smtp_username': '#insert your mail##',  
+            'smtp_password': '##insert your app password ##',  
+            'recipients': ['mail1','mail2','mail3'],
             'sender_name': 'OTDR Fault Detection System'
         }
 
